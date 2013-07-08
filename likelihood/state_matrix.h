@@ -2,6 +2,7 @@
 #define DCPROGS_STATE_MATRIX_H
 
 #include <DCProgsConfig.h>
+#include <ostream>
 #include <tuple>
 #include "errors.h"
 
@@ -11,7 +12,6 @@ namespace DCProgs {
   //! \brief State matrix that can  be partitioned into open/shut states.
   //! \details In practice, this is a two tuple with some helper functions to get corners.
   struct MSWINDOBE StateMatrix {
- 
  
     //! Number of open states.
     t_int nopen; 
@@ -46,18 +46,21 @@ namespace DCProgs {
     //! Shut to shut transitions.
     Eigen::Block<t_rmatrix const> ff() const 
       { return matrix.bottomRightCorner(matrix.rows() - nopen, matrix.rows() - nopen); }
+
+    t_int nclose() const { return matrix.cols() - nopen; }
+
+    //! \brief Returns transpose of state matrix.
+    //! \details Means A states become F states, and F states become A states, and the partitionned
+    //! matrix is transposed such that the new AA block is top left corner.
+    StateMatrix transpose() const;
  
     //! \brief Computes eigenvalues and eigenvectors
     //! \details Solves the *transpose* eigenproblem \f$\phi = \phi\cdot\mathcal{Q}\f$.
-    std::tuple<t_cvector, t_cmatrix> eigenstuff() {
-      Eigen::EigenSolver<t_rmatrix> eigsolver(matrix.transpose());
-      if(eigsolver.info() != Eigen::Success) 
-        throw errors::Mass("Could not solve eigenvalue problem.");
-      t_cvector const eigs = eigsolver.eigenvalues();
-      t_cmatrix const vecs = eigsolver.eigenvectors();
-      return std::make_tuple(eigs, vecs.transpose());
-    }
+    std::tuple<t_cvector, t_cmatrix> eigenstuff() const;
   };
+
+  //! Dumps object to stream.
+  MSWINDOBE std::ostream & operator<< (std::ostream &_stream, StateMatrix const &_mat);
 }
 
 #endif
