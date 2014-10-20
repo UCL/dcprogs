@@ -10,3 +10,5 @@ The documentation for this package can be found [here](http://ucl.github.io/dcpr
 
 Explanations on compiling and installing the package can be found in the
 [wiki](https://github.com/UCL/dcprogs/wiki).
+
+Add a note
