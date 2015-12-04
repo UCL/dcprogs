@@ -27,7 +27,7 @@
 #include "../laplace_survivor.h"
 using namespace DCProgs;
 
-#ifdef HAS_CXX11_TYPE_TRAITS
+#ifdef HAS_CXX11_TYPETRAITS
   // Checks some assumption about eigen matrix types.
   static_assert( std::is_move_constructible<LaplaceSurvivor>::value,
   	             "LaplaceSurvivor is not move constructible." );  
@@ -35,7 +35,7 @@ using namespace DCProgs;
   	             "LaplaceSurvivor is not move assignable." );  
 #endif
 
-#ifdef HAS_CXX11_TRIVIAL_TYPE_TRAITS
+#ifdef HAS_CXX11_TRIVIALTYPETRAITS
   static_assert( not std::is_trivially_move_constructible<LaplaceSurvivor>::value,
          	       "LaplaceSurvivor is trivially move constructible." );  
   static_assert( not std::is_trivially_move_assignable<LaplaceSurvivor>::value, 
