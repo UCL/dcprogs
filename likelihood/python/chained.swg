@@ -64,10 +64,10 @@
           DCPROGS_MACRO(npy_ushort);
           DCPROGS_MACRO(npy_byte);
           DCPROGS_MACRO(npy_ubyte);
-#         ifdef NUMPY_NPY_LONG_DOUBLE
+#         ifdef DCPROGS_NPY_HAS_LONG_DOUBLE
             DCPROGS_MACRO(npy_longdouble);
 #         endif
-#         ifdef NUMPY_NPY_LONG_DOUBLE
+#         ifdef DCPROGS_NPY_HAS_BOOL
             DCPROGS_MACRO(npy_bool);
 #         endif
 #       undef DCPROGS_MACRO
