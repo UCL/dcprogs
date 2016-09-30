@@ -63,25 +63,39 @@ namespace DCProgs {
   }
 
   t_real Log10Likelihood::operator()(QMatrix const &_matrix) const {
+    verify_qmatrix(_matrix);
     MissedEventsG const eG = MissedEventsG( _matrix, tau, nmax, xtol, rtol, itermax,
                                             lower_bound, upper_bound );
+
     bool const eq_vector = DCPROGS_ISNAN(tcritical) or tcritical <= 0;
 
     t_rvector final;
 
     if(eq_vector)
-        final = t_rmatrix::Ones(_matrix.nshut(),1);
+        final = t_rvector::Ones(_matrix.nshut(),1);
     else
         final = CHS_occupancies(eG, tcritical, false).transpose();
 
     t_initvec const initial = eq_vector ? occupancies(eG): CHS_occupancies(eG, tcritical);
                                 
     t_real result(0);
-    for(t_Burst const &burst: bursts) 
-      result += chained_log10_likelihood(eG, burst.begin(), burst.end(), initial, final);
+    const bool openmphighlevel = bursts.size() > 100;
+    if(openmphighlevel) {
+      #pragma omp parallel for default(none), reduction(+:result), shared(final)
+      for (t_int i=0; i<bursts.size(); i++) {
+        t_Burst const &burst = bursts[i];
+        result += chained_log10_likelihood(eG, burst, initial, final);
+      }
+    } else {
+      for (t_int i=0; i<bursts.size(); i++) {
+        t_Burst const &burst = bursts[i];
+        result += parallel_chained_log10_likelihood(eG, burst, initial, final, omp_num_threads);
+      }
+    }
     return result;
   }
   t_rvector Log10Likelihood::vector(QMatrix const &_matrix) const {
+    verify_qmatrix(_matrix);
     MissedEventsG const eG = MissedEventsG( _matrix, tau, nmax, xtol, rtol, itermax,
                                             lower_bound, upper_bound );
     bool const eq_vector = DCPROGS_ISNAN(tcritical) or tcritical <= 0;
@@ -96,9 +110,11 @@ namespace DCProgs {
     t_initvec const initial = eq_vector ? occupancies(eG): CHS_occupancies(eG, tcritical);
                                 
     t_rvector result(bursts.size());
-    t_int i(0);
-    for(t_Burst const &burst: bursts) {
-      result(i++) = chained_log10_likelihood(eG, burst.begin(), burst.end(), initial, final);
+    const bool openmphighlevel = bursts.size() > 100;
+    #pragma omp parallel for default(none), shared(final,result), if(openmphighlevel)
+    for (t_int i=0; i<bursts.size(); i++) {
+      t_Burst const &burst = bursts[i];
+      result(i) = chained_log10_likelihood(eG, burst, initial, final);
     }
     return result;
   }

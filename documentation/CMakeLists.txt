@@ -14,12 +14,36 @@
 #   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #   GNU General Public License for more details.
 #########################
-
+include_directories(${PROJECT_BINARY_DIR})
 if(EIGEN3_INCLUDE_DIR)
-  include_directories(${EIGEN3_INCLUDE_DIR} ${PROJECT_BINARY_DIR})
+  include_directories(SYSTEM ${EIGEN3_INCLUDE_DIR})
 endif()
 
-
+if(PANDOC_FOUND AND NBCONVERT_FOUND)
+  if("${JUPYTER_KERNEL}" STREQUAL "")
+    if(PYTHON_VERSION VERSION_LESS "3.0.0")
+      set(JUPYTER_KERNEL "python2")
+    else()
+      set(JUPYTER_KERNEL "python3")
+    endif()
+  endif()
+  MESSAGE(STATUS "Executing notebooks with ${JUPYTER_KERNEL}")
+  add_custom_target ( ipynbdocs
+    COMMAND jupyter-nbconvert ${CMAKE_SOURCE_DIR}/documentation/source/notebooks/*.ipynb --to rst --output-dir=${CMAKE_SOURCE_DIR}/documentation/source/notebooks
+    DEPENDS ipynbexecdocs)
+  if(executenotebooks AND IPYKERNEL_FOUND)
+    add_custom_target ( ipynbexecdocs
+      COMMAND python ${CMAKE_SOURCE_DIR}/cmake_modules/convert_notebooks.py --kernel=${JUPYTER_KERNEL})
+  else()
+    add_custom_target ( ipynbexecdocs
+      COMMAND python ${CMAKE_SOURCE_DIR}/cmake_modules/convert_notebooks.py --kernel=${JUPYTER_KERNEL} --copyonly)
+  endif()
+else()
+  add_custom_target ( ipynbdocs
+    COMMAND echo "not including Jupyter notebooks in docs")
+  add_custom_target ( ipynbexecdocs
+    COMMAND echo "not including Jupyter notebooks in docs")
+endif(PANDOC_FOUND AND NBCONVERT_FOUND)
 
 if (DOXYGEN_FOUND)
   add_custom_target ( doxydocs
@@ -57,7 +81,7 @@ if(SPHINX_FOUND)
     "${CMAKE_BINARY_DIR}/documentation/sphinx"
     COMMENT "Building HTML documentation with Sphinx"
     WORKING_DIRECTORY ${WORKINGDIR}
-    DEPENDS doxydocs )
+    DEPENDS doxydocs ipynbdocs ipynbexecdocs)
 
 endif(SPHINX_FOUND)
 
@@ -109,11 +133,12 @@ if(compileDocs)
       add_test(cxx_doctest_${pathname} doc_cxx_${pathname})
       set_tests_properties(cxx_doctest_${pathname} PROPERTIES ENVIRONMENT "${ENV_STRING}")
     endforeach()
-
-    foreach(pathfile ${PY_SOURCE_FILES})
-      get_filename_component(pathname ${pathfile} NAME_WE)
-      file(RELATIVE_PATH pathfile ${CMAKE_CURRENT_SOURCE_DIR} ${pathfile})
-      python_test(doctest_py_${pathname} ${pathfile})
-    endforeach()
+    if(pythonBindings)
+      foreach(pathfile ${PY_SOURCE_FILES})
+        get_filename_component(pathname ${pathfile} NAME_WE)
+        file(RELATIVE_PATH pathfile ${CMAKE_CURRENT_SOURCE_DIR} ${pathfile})
+        python_test(doctest_py_${pathname} ${pathfile})
+      endforeach()
+    endif(pythonBindings)
   endif(tests)
 endif(compileDocs)

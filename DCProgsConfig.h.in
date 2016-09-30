@@ -26,6 +26,15 @@
 #include <limits>
 #include <type_traits>
 #include <Eigen/Dense>
+#cmakedefine DCPROGS_USE_MPFR
+
+#ifdef DCPROGS_USE_MPFR
+#  include <unsupported/Eigen/MPRealSupport>
+#endif
+
+#ifndef EIGEN_DONT_PARALLELIZE
+# define EIGEN_DONT_PARALLELIZE
+#endif
 
 #cmakedefine HAS_CXX11_TYPE_TRAITS
 #cmakedefine HAS_CXX11_TRIVIAL_TYPE_TRAITS
@@ -89,6 +98,8 @@
 #cmakedefine DCPROGS_LONG_DOUBLE
 #cmakedefine DCPROGS_PYTHON3
 
+#define DCPROGS_STACK_MATRIX_MAX 50
+
 namespace DCProgs {
 # ifdef DCPROGS_LONG_DOUBLE
     //! Types of reals across DCProgs.
@@ -104,23 +115,36 @@ namespace DCProgs {
   //! Types of unsigned integers across DCProgs.
   typedef std::make_unsigned<t_int>::type t_uint;
   //! Types of real matrices across DCProgs.
-  typedef Eigen::Matrix<t_real, ::Eigen::Dynamic, ::Eigen::Dynamic> t_rmatrix;
+  typedef Eigen::Matrix<t_real, ::Eigen::Dynamic, ::Eigen::Dynamic, 0, ::Eigen::Dynamic, ::Eigen::Dynamic> t_rmatrix;
+  //! Types of real matrices across DCProgs guaranteed to be allocated on the stack. Max size DCPROGS_STACK_MATRIX_MAX by DCPROGS_STACK_MATRIX_MAX
+  typedef Eigen::Matrix<t_real, ::Eigen::Dynamic, ::Eigen::Dynamic, 0, DCPROGS_STACK_MATRIX_MAX, DCPROGS_STACK_MATRIX_MAX> t_stack_rmatrix;
   //! Types of boolean matrices across DCProgs.
-  typedef Eigen::Matrix<bool, ::Eigen::Dynamic, ::Eigen::Dynamic> t_bmatrix;
+  typedef Eigen::Matrix<bool, ::Eigen::Dynamic, ::Eigen::Dynamic, 0, ::Eigen::Dynamic, ::Eigen::Dynamic> t_bmatrix;
   //! Types of initial state vectors across DCProgs.
-  typedef Eigen::Matrix<t_real, 1, ::Eigen::Dynamic> t_initvec;
+  typedef Eigen::Matrix<t_real, 1, ::Eigen::Dynamic, ::Eigen::RowMajor, 1, ::Eigen::Dynamic> t_initvec;
   //! Types of final state vectors across DCProgs.
-  typedef Eigen::Matrix<t_real, ::Eigen::Dynamic, 1> t_rvector;
+  typedef Eigen::Matrix<t_real, ::Eigen::Dynamic, 1, 0, ::Eigen::Dynamic, 1> t_rvector;
   //! Type of complex matrices.
-  typedef Eigen::Matrix<t_complex, ::Eigen::Dynamic, ::Eigen::Dynamic> t_cmatrix;
+  typedef Eigen::Matrix<t_complex, ::Eigen::Dynamic, ::Eigen::Dynamic, 0, ::Eigen::Dynamic, ::Eigen::Dynamic> t_cmatrix;
   //! Type of complex vectors.
-  typedef Eigen::Matrix<t_complex, ::Eigen::Dynamic, 1> t_cvector;
+  typedef Eigen::Matrix<t_complex, ::Eigen::Dynamic, 1, 0, ::Eigen::Dynamic, 1> t_cvector;
 
   //! Type of a burst
   typedef std::vector<t_real> t_Burst;
   //! Type holding the bursts.
   typedef std::vector<t_Burst> t_Bursts;
 
+# ifdef DCPROGS_USE_MPFR
+    //! Types of multi-precision float across DCProgs.
+    typedef mpfr::mpreal t_mpfr_real;
+    //! Types of multi-precision complex across DCProgs.
+    typedef std::complex<t_mpfr_real> t_mpfr_complex;
+    //! Types of multi-precision complex vector across DCProgs.
+    typedef Eigen::Matrix<t_mpfr_complex, ::Eigen::Dynamic, 1, 0, ::Eigen::Dynamic, 1> t_mpfr_cvector;
+    //! Types of multi-precision real matrix across DCProgs.
+    typedef Eigen::Matrix<t_mpfr_real, ::Eigen::Dynamic, ::Eigen::Dynamic, 0, ::Eigen::Dynamic, ::Eigen::Dynamic> t_mpfr_rmatrix;
+
+# endif
   //! Dumps eigen array in format we can copy/paste to python
   template<class T>
     auto numpy_io(Eigen::DenseBase<T> const &_matrix, std::string const &_indent="")
@@ -144,5 +168,7 @@ namespace DCProgs {
 
   //! The quiet NaN value
   t_real static const quiet_nan = std::numeric_limits<t_real>::quiet_NaN();
+
+  t_uint static const dcprogs_stack_matrix = DCPROGS_STACK_MATRIX_MAX;
 }
 #endif
