@@ -1,5 +1,5 @@
 ########################
-#   DCProgs computes missed-events likelihood as described in
+#   HJCFIT computes missed-events likelihood as described in
 #   Hawkes, Jalali and Colquhoun (1990, 1992)
 #
 #   Copyright (C) 2013  University College London
@@ -22,8 +22,8 @@ register_type()
 @given('a list of {n:Integer} random missed-events likelihoods with tau={tau:Float} '             \
        'and nmax={nmax:Integer}')
 def step(context, n, tau, nmax):
-  from dcprogs.likelihood.random import qmatrix as random_qmatrix
-  from dcprogs.likelihood import MissedEventsG
+  from HJCFIT.likelihood.random import qmatrix as random_qmatrix
+  from HJCFIT.likelihood import MissedEventsG
   qmatrices, Gs, i = [], [], 10*n
   while len(Gs) != n:
     i -= 1
@@ -49,7 +49,7 @@ def step(context, model):
 @when('MissedEventsG objects are instantiated with the q-matrices and tau={tau:Float}'             \
       'and nmax={nmax:Integer}')
 def step(context, tau, nmax):
-  from dcprogs.likelihood import MissedEventsG
+  from HJCFIT.likelihood import MissedEventsG
   if not hasattr(context, "likelihoods"): context.likelihoods = []
   for i, qmatrix in enumerate(context.qmatrices):
     if qmatrix is None: context.likelihoods.append(None); continue
@@ -99,7 +99,7 @@ def step(context, name, start, end):
 @then('{name} can be found from ExactSurvivor if t is between {start:Float} and {end:Float}')
 def step(context, name, start, end): 
   from numpy import abs, any, dot
-  from dcprogs.likelihood import expm
+  from HJCFIT.likelihood import expm
   times = context.times
   times = times[times < end] 
   times = times[times > start]
@@ -126,7 +126,7 @@ def step(context, name, start, end):
 @then('{name} can be found from ApproxSurvivor if t is larger than {start:Float}')
 def step(context, name, start): 
   from numpy import abs, any, dot
-  from dcprogs.likelihood import expm
+  from HJCFIT.likelihood import expm
   times = context.times
   times = times[times > start]
   for approx, missed_events_G, qmatrix in zip(context.approx_survivors,
@@ -151,8 +151,8 @@ def step(context, name, start):
         raise 
 
 def compute_Hfa(qmatrix, tau, tcrit):
-  from dcprogs.likelihood import ApproxSurvivor
-  from dcprogs.likelihood import expm
+  from HJCFIT.likelihood import ApproxSurvivor
+  from HJCFIT.likelihood import expm
   from numpy import exp, dot
 
   approx = ApproxSurvivor(qmatrix, tau)

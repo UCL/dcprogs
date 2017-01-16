@@ -1,5 +1,5 @@
 /***********************
-    DCProgs computes missed-events likelihood as described in
+    HJCFIT computes missed-events likelihood as described in
     Hawkes, Jalali and Colquhoun (1990, 1992)
 
     Copyright (C) 2013  University College London
@@ -18,10 +18,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ************************/
 
-#ifndef DCPROGS_LIKELIHOOD_H
-#define DCPROGS_LIKELIHOOD_H
+#ifndef HJCFIT_LIKELIHOOD_H
+#define HJCFIT_LIKELIHOOD_H
 
-#include <DCProgsConfig.h>
+#include <HJCFITConfig.h>
 #include <vector>
 #include <unsupported/Eigen/MatrixFunctions>
 #if defined(_OPENMP)
@@ -31,7 +31,7 @@
 #include "qmatrix.h"
 #include "errors.h"
 
-namespace DCProgs {
+namespace HJCFIT {
 
   //! Computes likelihood of a time series.
   //! \param[in] _begin First interval in the time series. This must be an "open" interval.
@@ -219,10 +219,10 @@ namespace DCProgs {
                         }
      
       //! \brief Computes likelihood for each burst
-      //! \return a DCProgs::t_rvector 
+      //! \return a HJCFIT::t_rvector 
       t_rvector vector(t_rmatrix const &_Q) const { return vector(QMatrix(_Q, nopen)); }
       //! \brief Computes likelihood for each burst
-      //! \return a DCProgs::t_rvector 
+      //! \return a HJCFIT::t_rvector 
       t_rvector vector(QMatrix const &_Q) const;
       //! Log-likelihood 
       t_real operator()(t_rmatrix const &_Q) const { return operator()(QMatrix(_Q, nopen)); }

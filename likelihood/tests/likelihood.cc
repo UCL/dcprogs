@@ -1,5 +1,5 @@
 /***********************
-    DCProgs computes missed-events likelihood as described in
+    HJCFIT computes missed-events likelihood as described in
     Hawkes, Jalali and Colquhoun (1990, 1992)
 
     Copyright (C) 2013  University College London
@@ -18,8 +18,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ************************/
 
-#include "DCProgsConfig.h"
-#include "DCProgsConfig.h"
+#include "HJCFITConfig.h"
+#include "HJCFITConfig.h"
 
 #include <memory>
 #include <gtest/gtest.h>
@@ -27,7 +27,7 @@
 #include "../missed_eventsG.h"
 #include "../occupancies.h"
 
-using namespace DCProgs;
+using namespace HJCFIT;
 
 class TestLikelihood : public ::testing::Test {
   
@@ -176,7 +176,7 @@ TEST_F(TestLikelihood, odd_intervals) {
 
 // Makes sure that code throws if qmatrix is too large to fit the stack
 TEST_F(TestLikelihood, exceeds_stack_throws) {
-  qmatrix.matrix.resize(dcprogs_stack_matrix+1,dcprogs_stack_matrix+1);
+  qmatrix.matrix.resize(HJCFIT_stack_matrix+1,HJCFIT_stack_matrix+1);
   likelihood->bursts = t_Bursts(1, t_Burst(1, 1.5e-4) );
   EXPECT_THROW((*likelihood)(qmatrix), errors::Domain);
 }

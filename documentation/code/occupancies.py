@@ -1,4 +1,4 @@
-from dcprogs.likelihood import QMatrix, IdealG, MissedEventsG
+from HJCFIT.likelihood import QMatrix, IdealG, MissedEventsG
 
 # Define parameters.
 qmatrix = QMatrix([ [-3050,        50,  3000,      0,    0], 
