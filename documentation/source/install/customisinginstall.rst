@@ -1,6 +1,6 @@
-******************************
-Customising build and install:
-******************************
+*****************************
+Customising build and install
+*****************************
 
 Customising Installation location
 =================================
@@ -20,7 +20,7 @@ fairly easy:
   make install
 
 The above will put executable in ``/path/to/install/to/bin``, headers in
-``/path/to/install/to/include``, and libraries in ```/path/to/install/to/lib``.
+``/path/to/install/to/include``, and libraries in ``/path/to/install/to/lib``.
 
 Specific Eigen Installation
 ===========================

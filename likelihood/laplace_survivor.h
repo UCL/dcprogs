@@ -28,7 +28,7 @@
 namespace HJCFIT {
 
 
-  //! \brief Survivor functions $^{A}R(s)$ in Laplace space. 
+  //! \brief Survivor functions \f$^{A}R(s)\f$ in Laplace space. 
   //| \details Also contains many of the math kernels needed for the determinant equation.
   //! It is practical to have it defined on its own.
   class MSWINDOBE LaplaceSurvivor {
