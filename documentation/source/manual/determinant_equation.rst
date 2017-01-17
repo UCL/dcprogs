@@ -10,9 +10,9 @@ The function :math:`H(s)` is an integral defined as:
      \int_0^\tau e^{-st}e^{\mathcal{Q}_{FF}t}\partial\,t\ \mathcal{Q}_{FA}
 
 It is possible the function :math:`H` as well as its determinant using the
-:py:class:`~dcprogs.likelihood.DeterminantEq` objects. This is the object used when solving for the
+:py:class:`~HJCFIT.likelihood.DeterminantEq` objects. This is the object used when solving for the
 approximate missed-events likelihood. The determinant equation is initialized in one of two ways,
-either from a matrix or :py:class:`~dcprogs.likelihood.QMatrix`.
+either from a matrix or :py:class:`~HJCFIT.likelihood.QMatrix`.
 
 :python: 
 
@@ -59,7 +59,7 @@ one where A states become F states and F states become A states:
 
   .. note::
      
-     Here we choose to create an input which has same internal type as the dcprogs package. This may
+     Here we choose to create an input which has same internal type as the HJCFIT package. This may
      result in faster code since no conversion are required.
 
 :c++11:

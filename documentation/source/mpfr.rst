@@ -24,4 +24,4 @@ linux if not found. However, this feature is not enabled on Windows by default.
 ``MPIR`` as a drop-in replacement for ``GMP`` on windows which ``MPFR`` can be
 linked against. However, there is currently no support for building this
 automatically on windows. To control if this option should be enabled the flag
-``DCPROGS_USE_MPFR`` can be set to ``on`` or ``off``. 
+``HJCFIT_USE_MPFR`` can be set to ``on`` or ``off``. 

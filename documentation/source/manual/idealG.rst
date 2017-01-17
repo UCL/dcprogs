@@ -1,7 +1,7 @@
 Ideal Likelihood :math:`\mathcal{G}(t)`
 =======================================
 
-A wrapper around :py:class:`~dcprogs.likelihood.QMatrix` is provided which allows the calculation of
+A wrapper around :py:class:`~HJCFIT.likelihood.QMatrix` is provided which allows the calculation of
 the ideal likelihood:
 
 .. math::

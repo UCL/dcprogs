@@ -28,8 +28,8 @@ The occupancies are accessed differently in :ref:`c++ <cpp_occupancies_api>` and
 
 :python:
 
-  The equilibrium occupancies are accessed as properties of :py:class:`~dcprogs.likelihood.IdealG`
-  and :py:class:`~dcprogs.likelihood.MissedEventsG` instances. The CHS vectors are functions of
+  The equilibrium occupancies are accessed as properties of :py:class:`~HJCFIT.likelihood.IdealG`
+  and :py:class:`~HJCFIT.likelihood.MissedEventsG` instances. The CHS vectors are functions of
   these same classes that take as arguments the critical time.
 
    
@@ -51,8 +51,8 @@ beats purity, and it makes practical sense to keep likelihood and occupancies to
 
 .. note::
 
-   :py:func:`~dcprogs.likelihood.Log10Likelihood` uses equilibrium occupancies depending on the
-   value of its attribute :py:attr:`~dcprogs.likelihood.Log10Likelihood.tcritical`:
+   :py:func:`~HJCFIT.likelihood.Log10Likelihood` uses equilibrium occupancies depending on the
+   value of its attribute :py:attr:`~HJCFIT.likelihood.Log10Likelihood.tcritical`:
 
    - if it is ``None``, ``numpy.NaN``, or negative, then the equilibrium occupancies are used
    - if it a strictly positive real number, then the CHS vectors are computed

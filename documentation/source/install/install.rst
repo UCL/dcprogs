@@ -3,10 +3,10 @@ Building and installing HJCFIT:
 *******************************
 
 
-Compiling DCProgs
+Compiling HJCFIT
 =================
 
-A couple of design  decisions affect the compilation of DCProgs.
+A couple of design  decisions affect the compilation of HJCFIT.
 
 * `c++11 <http://en.wikipedia.org/wiki/C%2B%2B11>`_ is the new standard for 
     the C++ programming languages. It is almost fully implemented by modern 
@@ -15,9 +15,9 @@ A couple of design  decisions affect the compilation of DCProgs.
     simplifies programming (e.g. `move semantics <http://www.cprogramming.com/c++11/rvalue-references-and-move-semantics-in-c++11.html>`_)
     greatly. This is a forward looking solution implying some temporary hassle.
 * [GTest](https://code.google.com/p/googletest/) is the c++ unit-test 
-    framework from google. It is required when running DCProgs' unit tests only.
+    framework from google. It is required when running HJCFIT' unit tests only.
     However, `GTest <https://code.google.com/p/googletest/>`_ must be compiled 
-    by the code it is testing. This means it should be shipped with DCProgs, 
+    by the code it is testing. This means it should be shipped with HJCFIT, 
     or it should be downloaded automatically by the compilation tools. This is
     the option we have chosen. When compiling tests,
     `CMake <http://www.cmake.org/>`_ will automatically download and compile
@@ -75,7 +75,7 @@ Then configure and build the code:
 
 .. code-block:: bash
   
-  cd /path/to/DCProgs
+  cd /path/to/HJCFIT
   mkdir build && cd build
   cmake ..
   make
@@ -94,7 +94,7 @@ For any compiler, do:
 
 .. code-block:: bash
 
-   cd /path/to/DCProgs
+   cd /path/to/HJCFIT
    mkdir build && cd build
 
 

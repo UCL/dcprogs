@@ -3,14 +3,14 @@
 Missed-Events Likelihood :math:`{}^eG(t)`
 =========================================
 
-The callable object :cpp:class:`DCProgs::MissedEventsG` provides an interface to compute the
+The callable object :cpp:class:`HJCFIT::MissedEventsG` provides an interface to compute the
 likelihood :math:`{}^eG(t)` of open and shut events as a function of their lengths, for a fixed
 :math:`Q`-matrix. It has the ability to compute both exact and approximate missed-events likelihood,
 returning one or the other depending on a given time cutoff.
 
 The asymptotic expression of the likelihood can be computed from the knowledge of the roots of a
 specific equations. On the one hand, root-finding can be a fairly difficult numerical operation. On
-the other, it would be more convenient if we can initialize :cpp:class:`DCProgs::MissedEventsG`
+the other, it would be more convenient if we can initialize :cpp:class:`HJCFIT::MissedEventsG`
 directly from a :math:`Q`-matrix object. As such, there are several means to initialize the functor:
 
 - from the knowledge of the roots and the determinant equations
@@ -35,10 +35,10 @@ Initialization from a :math:`Q`-matrix
      :lines: 1-18, 41, 55-
 
 A fair amount of work goes on behind the scene. First reasonable upper and lower bounds for the
-roots obtained (:cpp:func:`DCProgs::find_lower_bound_for_roots`, and
-:cpp:func:`DCProgs::find_upper_bound_for_roots`). Then intervals for each roots are computed
-(:cpp:func:`DCProgs::find_root_intervals`). And finally, the roots themselves are obtained
-(:cpp:func:`DCProgs::brentq`). All this work is done automatically in the case of this particular
+roots obtained (:cpp:func:`HJCFIT::find_lower_bound_for_roots`, and
+:cpp:func:`HJCFIT::find_upper_bound_for_roots`). Then intervals for each roots are computed
+(:cpp:func:`HJCFIT::find_root_intervals`). And finally, the roots themselves are obtained
+(:cpp:func:`HJCFIT::brentq`). All this work is done automatically in the case of this particular
 instantiation. A few extra parameters to control the root-finding process can be passed to the c++
 and python constructors.
 
@@ -68,7 +68,7 @@ Initialization from the :math:`Q`-matrix and a root finding function
 
 Given a root-finding function, it is possible to instantiate  :math:`{}^eG`. The root finding
 function should take a determinant equation as input, and return a vector of
-:cpp:class:`DCProgs::Root` as output. In the code below, we show how the prior initialization could
+:cpp:class:`HJCFIT::Root` as output. In the code below, we show how the prior initialization could
 be recreated.
 
 .. literalinclude:: ../../code/missedeventsG.cc                
@@ -105,9 +105,9 @@ The python bindings accept any input that can be transformed to a numpy array of
 is a scalar, then the AF and FA blocks are returned. If the input is an array, then an array of
 similar shape is returned, where each component is a matrix. 
 
-The :cpp:class:`DCProgs::MissedEventsG` provides further functionality. For instance, the cutoff
+The :cpp:class:`HJCFIT::MissedEventsG` provides further functionality. For instance, the cutoff
 point between exact and asymptotic calculations can be set explicitly (it defaults to :math:`t <
 3\tau`). And the likelihood can be computed in Laplace space (see
-:cpp:member:`DCProgs::MissedEventsG::laplace_af` and
-:cpp:member:`DCProgs::MissedEventsG::laplace_fa`). We invite users to turn to the :ref:`python
+:cpp:member:`HJCFIT::MissedEventsG::laplace_af` and
+:cpp:member:`HJCFIT::MissedEventsG::laplace_fa`). We invite users to turn to the :ref:`python
 <python_eG_api>` and the :ref:`c++ <cpp_eG_api>` API for more details.

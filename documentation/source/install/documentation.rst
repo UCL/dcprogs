@@ -68,7 +68,7 @@ This means:
 #. The library is in the ``PATH`` (windows), ``DYLD_LIBRARY_PATH`` (Mac), 
    or the ``LD_LIBRARY_PATH`` (Linux)
 #. The python bindings are in the ``sys.path`` 
-   (e.g. ``python -c "import dcprogs.likelihood"`` does not fail)
+   (e.g. ``python -c "import HJCFIT.likelihood"`` does not fail)
 
 The reason for this is that python documentation software will interrogate 
 the package to find out what it contains. Hence the package needs to be 

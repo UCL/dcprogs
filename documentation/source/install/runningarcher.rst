@@ -55,7 +55,7 @@ Python Virtual Environment
 To work with Python on ARCHER, we are using a virtual environment, which is the strategy recommended by ARCHER. 
 
 To create it, you can run `this script <https://github.com/DCPROGS/HJCFIT/blob/develop/utils/archer/createVirtualEnv.sh>`__
-that will install all the necessary packages to run HJCFIT in a virtual environment called ``dcprogs``. 
+that will install all the necessary packages to run HJCFIT in a virtual environment called ``HJCFIT``. 
 
 You will also need to install any extra packages or projects you need, for example
 to work with DCPYPS, you'll need to clone it and then install it:
@@ -69,8 +69,8 @@ Once the virtual environment is ready, you can activate or deactivate it with:
 
 .. code-block:: bash
 
-   source activate dcprogs
-   source deactivate dcprogs
+   source activate HJCFIT
+   source deactivate HJCFIT
 
 
 Loging in to ARCHER and getting HJCFIT
