@@ -1,34 +1,34 @@
 .. _manual_eG:
 
-Missed-Events Likelihood :math:`{}^eG(t)`
+Missed-Events transition densities :math:`{}^eG(t)`
 =========================================
 
 The callable object :cpp:class:`HJCFIT::MissedEventsG` provides an interface to compute the
 likelihood :math:`{}^eG(t)` of open and shut events as a function of their lengths, for a fixed
 :math:`Q`-matrix. It has the ability to compute both exact and approximate missed-events likelihood,
-returning one or the other depending on a given time cutoff.
+returning one or the other depending on a given time resolution.
 
-The asymptotic expression of the likelihood can be computed from the knowledge of the roots of a
+The asymptotic expression of the transition densities can be computed from the knowledge of the roots of a
 specific equations. On the one hand, root-finding can be a fairly difficult numerical operation. On
 the other, it would be more convenient if we can initialize :cpp:class:`HJCFIT::MissedEventsG`
 directly from a :math:`Q`-matrix object. As such, there are several means to initialize the functor:
 
-- from the knowledge of the roots and the determinant equations
-- directly from a :math:`Q`-matrix, using the default root-finding mechanism
-- from a :math:`Q`-matrix, using a custom root-finding mechanism (c++ only)
+- from the knowledge of the roots and the determinant equations;
+- directly from a :math:`Q`-matrix, using the default root-finding mechanism;
+- from a :math:`Q`-matrix, using a custom root-finding mechanism (C++ only).
 
 
 Initialization from a :math:`Q`-matrix
 """"""""""""""""""""""""""""""""""""""
 
-:python: 
+:Python: 
 
   .. literalinclude:: ../../code/missedeventsG.py
      :language: python
      :lines: 1-11, 19
 
 
-:c++11:
+:C++11:
 
   .. literalinclude:: ../../code/missedeventsG.cc
      :language: c++
@@ -39,21 +39,21 @@ roots obtained (:cpp:func:`HJCFIT::find_lower_bound_for_roots`, and
 :cpp:func:`HJCFIT::find_upper_bound_for_roots`). Then intervals for each roots are computed
 (:cpp:func:`HJCFIT::find_root_intervals`). And finally, the roots themselves are obtained
 (:cpp:func:`HJCFIT::brentq`). All this work is done automatically in the case of this particular
-instantiation. A few extra parameters to control the root-finding process can be passed to the c++
-and python constructors.
+instantiation. A few extra parameters to control the root-finding process can be passed to the C++
+and Python constructors.
 
 
 Initialization from the roots and determinant equations
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-:python: 
+:Python: 
 
   .. literalinclude:: ../../code/missedeventsG.py
      :language: python
      :lines: 13-16
 
 
-:c++11:
+:C++11:
 
   .. literalinclude:: ../../code/missedeventsG.cc
      :language: c++
@@ -76,7 +76,7 @@ be recreated.
    :lines: 35-38
 
 This is mostly a convenience function, to make it slightly easier to interface with other
-root-finding methods in c++. This interface is not explicitly available in python, although it can
+root-finding methods in C++. This interface is not explicitly available in Python, although it can
 be created with ease.
 
 
