@@ -63,17 +63,17 @@ def step(context, tau, nmax):
       print(qmatrix)
       raise
 
-@when('the {name} CHS occupancies are computed')
+@when('the {name} CHS vectors are computed')
 def step(context, name): 
-  if not hasattr(context, 'occupancies'): context.occupancies = []
-  equname = '{0}_CHS_occupancies'.format(name)
+  if not hasattr(context, 'vectors'): context.vectors = []
+  equname = '{0}_CHS_vectors'.format(name)
   for G in context.likelihoods:
     function = getattr(G, equname)
-    context.occupancies.append([function(t) for t in context.times])
+    context.vectors.append([function(t) for t in context.times])
     
-@when('we compute the {which} CHS occupancies with tcrit={tcrit:Float}')
+@when('we compute the {which} CHS vectors with tcrit={tcrit:Float}')
 def step(context, which, tcrit):
-  context.chs = getattr(context.eG, '{0}_CHS_occupancies'.format(which))(tcrit)
+  context.chs = getattr(context.eG, '{0}_CHS_vectors'.format(which))(tcrit)
 
 
 
@@ -165,15 +165,15 @@ def compute_Hfa(qmatrix, tau, tcrit):
   return dot(result, dot(qmatrix.fa, expm(tau * qmatrix.aa)))
 
 
-@then('the initial CHS occupancies are the solutions to the CHS equations')
+@then('the initial CHS vectors are the solutions to the CHS equations')
 def step(context):
   from numpy import dot, abs, all, any, sum
 
   didloop = False
-  for qmatrix, G, occupancies in zip(context.qmatrices, context.likelihoods, context.occupancies):
-    phif = G.final_occupancies
+  for qmatrix, G, vectors in zip(context.qmatrices, context.likelihoods, context.vectors):
+    phif = G.final_vectors
 
-    for t, occ in zip(context.times, occupancies):
+    for t, occ in zip(context.times, vectors):
       try:  
         Hfa = compute_Hfa(qmatrix, G.tau, t)
         phif_Hfa = dot(phif, Hfa)
@@ -183,7 +183,7 @@ def step(context):
         assert abs(sum(occ) - 1e0) < context.tolerance
       except:
         print(G)
-        print("  * occupancies: {0}".format(occ))
+        print("  * vectors: {0}".format(occ))
         print("  * check: {0}".format(check))
         print("  * Hfa shape: {0}".format(Hfa.shape))
         raise
@@ -191,12 +191,12 @@ def step(context):
       didloop = True
   assert didloop
 
-@then('the final CHS occupancies are the solutions to the CHS equations')
+@then('the final CHS vectors are the solutions to the CHS equations')
 def step(context):
   from numpy import abs, all, any, sum
 
-  for qmatrix, G, occupancies in zip(context.qmatrices, context.likelihoods, context.occupancies):
-    for t, occ in zip(context.times, occupancies):
+  for qmatrix, G, vectors in zip(context.qmatrices, context.likelihoods, context.vectors):
+    for t, occ in zip(context.times, vectors):
       try:  
         Hfa = compute_Hfa(qmatrix, G.tau, t)
         check = sum(Hfa[:, :G.nopen], axis=1) 
@@ -205,13 +205,13 @@ def step(context):
           assert any(abs(occ - 2e0*check) > context.tolerance)
       except:
         print(G)
-        print("  * occupancies: {0}".format(occ))
+        print("  * vectors: {0}".format(occ))
         print("  * check: {0}".format(check))
         print("  * Hfa shape: {0}".format(Hfa.shape))
         print("  * time: {0}".format(t))
         raise
 
-@then('the {which} CHS occupancies compare to {prior:Eval}')
+@then('the {which} CHS vectors compare to {prior:Eval}')
 def step(context, which, prior):
   from numpy import all, abs
 

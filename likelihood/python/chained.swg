@@ -24,8 +24,8 @@
     //! \param[in] _intervals: Time intervals, starting and ending with an "open" interval.
     //! \param[in] _g: The likelihood functor. It should have an `af(t_real)` and an `fa(t_real)`
     //!                member function, where the argument is the length of an open or shut interval.
-    //! \param[in] _initial: initial occupancies.
-    //! \param[in] _final: final occupancies.
+    //! \param[in] _initial: initial vectors.
+    //! \param[in] _final: final vectors.
     template<class T_G> 
       HJCFIT::t_real py_chained_likelihood(T_G const & _g, PyObject *_intervals, 
                                             PyObject *_initial, PyObject *_final) {

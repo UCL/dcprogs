@@ -25,7 +25,7 @@
 #include <gtest/gtest.h>
 #include "../likelihood.h"
 #include "../missed_eventsG.h"
-#include "../occupancies.h"
+#include "../vectors.h"
 
 using namespace HJCFIT;
 
@@ -110,7 +110,7 @@ TEST_F(TestLikelihood, manual_check) {
 
   likelihood->tcritical = -1e0;
   MissedEventsG eG(qmatrix, 1e-4);
-  t_initvec const initial = occupancies(eG);
+  t_initvec const initial = vectors(eG);
   t_rvector const final = t_rvector::Ones(3,1);
 
   t_rmatrix matrix = eG.af( likelihood->bursts.back()[0] );
@@ -138,10 +138,10 @@ TEST_F(TestLikelihood, manual_check_CHS) {
 
   likelihood->tcritical = 1e-3;
   MissedEventsG eG(qmatrix, 1e-4);
-  t_initvec const initial_eq = occupancies(eG);
-  t_rvector const final_eq = occupancies(eG, false).transpose();
-  t_initvec const initial = CHS_occupancies(eG, likelihood->tcritical);
-  t_rvector const final = CHS_occupancies(eG, likelihood->tcritical, false).transpose();
+  t_initvec const initial_eq = vectors(eG);
+  t_rvector const final_eq = vectors(eG, false).transpose();
+  t_initvec const initial = CHS_vectors(eG, likelihood->tcritical);
+  t_rvector const final = CHS_vectors(eG, likelihood->tcritical, false).transpose();
 
   t_rmatrix matrix = eG.af( likelihood->bursts.back()[0] );
 

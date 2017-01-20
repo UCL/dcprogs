@@ -55,8 +55,8 @@
          ":returns:\n"
          "  A matrix if the input is scalar, an array of matrices otherwise, \n"
          "  with the shape of the input.") MissedEventsG::laplace_fa(PyObject*);
-%feature("autodoc", "Computes initial CHS occupancies.") MissedEventsG::initial_CHS_occupancies;
-%feature("autodoc", "Computes final CHS occupancies.") MissedEventsG::final_CHS_occupancies;
+%feature("autodoc", "Computes initial CHS vectors.") MissedEventsG::initial_CHS_vectors;
+%feature("autodoc", "Computes final CHS vectors.") MissedEventsG::final_CHS_vectors;
 %feature("autodoc", "Resolution or maximum length of the missed events.") MissedEventsG::tau;
 %feature("autodoc", "Factor accounting for minimum shut time\n\n"
          "It is the likelihood :math:`\\mathcal{Q}_{AF}e^{-\\mathcal{Q}_{FF}\\tau}` of a shut\n"
@@ -64,14 +64,14 @@
 %feature("autodoc", "Factor accounting for minimum open time\n\n"
          "It is the likelihood :math:`\\mathcal{Q}_{FA}e^{-\\mathcal{Q}_{AA}\\tau}` of an open\n"
          "time of length :math:`\\tau`.") MissedEventsG::fa_factor;
-%feature("autodoc", "Equilibrium occupancies for initial states.\n\n"
+%feature("autodoc", "Equilibrium vectors for initial states.\n\n"
          "Computes the left eigenvector of :math:`{}^e\\mathcal{G}_{AF}{}^e\\mathcal{G}_{FA}`, \n"
          "where :math:`{}^e\\mathcal{G}_{AF}` is the laplacian for :math:`s=0` of the likelihood.")
-         MissedEventsG::initial_occupancies;
-%feature("autodoc", "Equilibrium occupancies for final states.\n\n"
+         MissedEventsG::initial_vectors;
+%feature("autodoc", "Equilibrium vectors for final states.\n\n"
          "Computes the right eigenvector of :math:`{}^e\\mathcal{G}_{FA}{}^e\\mathcal{G}_{AF}`, \n"
          "where :math:`{}^e\\mathcal{G}_{FA}` is the laplacian for :math:`s=0` of the likelihood.")
-         MissedEventsG::final_occupancies;
+         MissedEventsG::final_vectors;
 %feature("autodoc", "Cut-off time of exact calculations "
          ":math:`t_{\\mathrm{max}} = (n_{\\mathrm{max}}-1)\\\\tau`.\n\n"
          "For practical reasons, the minimum observation time has already"
@@ -232,17 +232,17 @@ class MissedEventsG {
       return apply_numpy(t, [$self](HJCFIT::t_real s) { return $self->laplace_fa(s); }); 
     }
   }
-  // Make CHS_occupancies member methods of MissedEventsG. 
+  // Make CHS_vectors member methods of MissedEventsG. 
   // Python is a glue language, so it makes sense to keep both MissedEventsG functionality and
   // CHS vector functionality together, even when it doesn't in c++.
   // Basically, c++ stuff is kept conceptual -- and separate concepts are kept separate.
   // On the other hand, python is just about being practical.
   %extend {
-    HJCFIT::t_initvec initial_CHS_occupancies(HJCFIT::t_real t_critical) {
-      return HJCFIT::CHS_occupancies(*$self, t_critical, true); 
+    HJCFIT::t_initvec initial_CHS_vectors(HJCFIT::t_real t_critical) {
+      return HJCFIT::CHS_vectors(*$self, t_critical, true); 
     }
-    HJCFIT::t_rvector final_CHS_occupancies(HJCFIT::t_real t_critical) { 
-      return HJCFIT::CHS_occupancies(*$self, t_critical, false); 
+    HJCFIT::t_rvector final_CHS_vectors(HJCFIT::t_real t_critical) { 
+      return HJCFIT::CHS_vectors(*$self, t_critical, false); 
     }
   }
 
@@ -251,8 +251,8 @@ class MissedEventsG {
     HJCFIT::t_real const tau;
     PyObject * const af_factor;
     PyObject * const fa_factor;
-    HJCFIT::t_initvec const initial_occupancies;
-    HJCFIT::t_rvector const final_occupancies;
+    HJCFIT::t_initvec const initial_vectors;
+    HJCFIT::t_rvector const final_vectors;
   }
   %{
     HJCFIT::t_real HJCFIT_MissedEventsG_tau_get(HJCFIT::MissedEventsG *_in) {
@@ -268,11 +268,11 @@ class MissedEventsG {
       PyArray_CLEARFLAGS((PyArrayObject*)result, NPY_ARRAY_WRITEABLE);
       return result;
     }
-    HJCFIT::t_initvec HJCFIT_MissedEventsG_initial_occupancies_get(HJCFIT::MissedEventsG *_in) {
-      return HJCFIT::occupancies(*_in, true);
+    HJCFIT::t_initvec HJCFIT_MissedEventsG_initial_vectors_get(HJCFIT::MissedEventsG *_in) {
+      return HJCFIT::vectors(*_in, true);
     }
-    HJCFIT::t_rvector HJCFIT_MissedEventsG_final_occupancies_get(HJCFIT::MissedEventsG *_in) {
-      return HJCFIT::occupancies(*_in, false).transpose();
+    HJCFIT::t_rvector HJCFIT_MissedEventsG_final_vectors_get(HJCFIT::MissedEventsG *_in) {
+      return HJCFIT::vectors(*_in, false).transpose();
     }
   %}
   // Add some printout functions.

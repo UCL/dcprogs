@@ -23,7 +23,7 @@
 #include <sstream>
 
 #include "likelihood.h"
-#include "occupancies.h"
+#include "vectors.h"
 #include "missed_eventsG.h"
 
 namespace HJCFIT {
@@ -50,8 +50,8 @@ namespace HJCFIT {
             << "  * Number of open states: " << _self.nopen << "\n"
             << "  * Resolution time tau: " << _self.tau << "\n";
     if(HJCFIT_ISNAN(_self.tcritical)  or _self.tcritical <= 0e0)
-         _stream << "  * Using equilibrium occupancies.\n";
-    else _stream << "  * Using CHS occupancies with tcrit: "  << _self.tcritical << "\n";
+         _stream << "  * Using equilibrium vectors.\n";
+    else _stream << "  * Using CHS vectors with tcrit: "  << _self.tcritical << "\n";
     _stream << "  * Exact events computed for: t < "
             << _self.nmax << " tau\n\n"
             << _self.bursts
@@ -74,9 +74,9 @@ namespace HJCFIT {
     if(eq_vector)
         final = t_rvector::Ones(_matrix.nshut(),1);
     else
-        final = CHS_occupancies(eG, tcritical, false).transpose();
+        final = CHS_vectors(eG, tcritical, false).transpose();
 
-    t_initvec const initial = eq_vector ? occupancies(eG): CHS_occupancies(eG, tcritical);
+    t_initvec const initial = eq_vector ? vectors(eG): CHS_vectors(eG, tcritical);
                                 
     t_real result(0);
     const bool openmphighlevel = bursts.size() > 100;
@@ -105,9 +105,9 @@ namespace HJCFIT {
     if(eq_vector)
         final = t_rmatrix::Ones(_matrix.nshut(),1);
     else
-        final = CHS_occupancies(eG, tcritical, false).transpose();
+        final = CHS_vectors(eG, tcritical, false).transpose();
 
-    t_initvec const initial = eq_vector ? occupancies(eG): CHS_occupancies(eG, tcritical);
+    t_initvec const initial = eq_vector ? vectors(eG): CHS_vectors(eG, tcritical);
                                 
     t_rvector result(bursts.size());
     const bool openmphighlevel = bursts.size() > 100;

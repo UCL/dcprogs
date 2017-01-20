@@ -49,14 +49,14 @@
          ":param s:\n"
          "   A scalar or something to a numpy array. In the latter case, the return is an array\n"
          "   of matrices.\n") IdealG::laplace_fa(PyObject*);
-%feature("autodoc", "Equilibrium occupancies for initial states.\n\n"
+%feature("autodoc", "Equilibrium vectors for initial states.\n\n"
          "Computes the left eigenvector of :math:`\\mathcal{G}_{AF}\\mathcal{G}_{FA}`, where\n"
          ":math:`\\mathcal{G}_{AF}` is the laplacian for :math:`s=0` of the likelihood.")
-         IdealG::initial_occupancies;
-%feature("autodoc", "Equilibrium occupancies for final states.\n\n"
+         IdealG::initial_vectors;
+%feature("autodoc", "Equilibrium vectors for final states.\n\n"
          "Computes the right eigenvector of :math:`\\mathcal{G}_{FA}\\mathcal{G}_{AF}`, where\n"
          ":math:`\\mathcal{G}_{FA}` is the laplacian for :math:`s=0` of the likelihood.")
-         IdealG::final_occupancies;
+         IdealG::final_vectors;
 %feature("autodoc", "Number of open-states.") IdealG::nopen;
 %feature("autodoc", "Number of shut-states.") IdealG::nshut;
 
@@ -83,17 +83,17 @@ class IdealG {
 
   // Adds some quantities as properties
   %extend {
-    HJCFIT::t_initvec const initial_occupancies;
-    HJCFIT::t_rvector const final_occupancies;
+    HJCFIT::t_initvec const initial_vectors;
+    HJCFIT::t_rvector const final_vectors;
     HJCFIT::t_uint const nopen;
     HJCFIT::t_uint const nshut;
   }
   %{
-    HJCFIT::t_initvec HJCFIT_IdealG_initial_occupancies_get(HJCFIT::IdealG *_in) {
-      return HJCFIT::occupancies(*_in, true);
+    HJCFIT::t_initvec HJCFIT_IdealG_initial_vectors_get(HJCFIT::IdealG *_in) {
+      return HJCFIT::vectors(*_in, true);
     }
-    HJCFIT::t_rvector HJCFIT_IdealG_final_occupancies_get(HJCFIT::IdealG *_in) {
-      return HJCFIT::occupancies(*_in, false).transpose();
+    HJCFIT::t_rvector HJCFIT_IdealG_final_vectors_get(HJCFIT::IdealG *_in) {
+      return HJCFIT::vectors(*_in, false).transpose();
     }
     HJCFIT::t_uint HJCFIT_IdealG_nopen_get(HJCFIT::IdealG *_in) { return _in->get_nopen(); }
     HJCFIT::t_uint HJCFIT_IdealG_nshut_get(HJCFIT::IdealG *_in) { return _in->get_nshut(); }

@@ -1,4 +1,4 @@
-.. _manual_occupancies:
+.. _manual_vectors:
 
 Equilibrium vectors
 ===========
@@ -24,7 +24,7 @@ missed-events transition densities :math:`{}^e\mathcal{G}(t)` (or equivalently, 
 
 On the other hand equilibrium vectors can be computed as CHS vectors, e.g. equation 5.11 and 5.8 from :cite:`colquhoun:1996`. 
 
-The occupancies are accessed differently in :ref:`C++ <cpp_occupancies_api>` and in Python.
+The vectors are accessed differently in :ref:`C++ <cpp_vectors_api>` and in Python.
 
 :Python:
 
@@ -33,7 +33,7 @@ The occupancies are accessed differently in :ref:`C++ <cpp_occupancies_api>` and
   these same classes that take as arguments the critical time.
 
    
-  .. literalinclude:: ../../code/occupancies.py
+  .. literalinclude:: ../../code/vectors.py
      :language: python
 
 
@@ -42,7 +42,7 @@ The occupancies are accessed differently in :ref:`C++ <cpp_occupancies_api>` and
   All vectors are accessed via function calls acting on the
   :cpp:class:`IdealG` and :cpp:class:`MissedEventsG`.
 
-  .. literalinclude:: ../../code/occupancies.cc
+  .. literalinclude:: ../../code/vectors.cc
      :language: c++
 
 In C++, the vectors are kept outside of the classes because computing these values is outside

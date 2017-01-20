@@ -47,7 +47,7 @@
 
 #  include "../qmatrix.h"
 #  include "../idealG.h"
-#  include "../occupancies.h"
+#  include "../vectors.h"
 #  include "../determinant_equation.h"
 #  include "../root_finder.h"
 #  include "../asymptotes.h"

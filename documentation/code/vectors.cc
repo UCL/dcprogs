@@ -2,7 +2,7 @@
 
 #include <likelihood/missed_eventsG.h>
 #include <likelihood/idealG.h>
-#include <likelihood/occupancies.h>
+#include <likelihood/vectors.h>
  
 int main() {
 
@@ -23,23 +23,23 @@ int main() {
   
   HJCFIT::t_real const tcritical(5e-3);
 
-  std::cout << "Equilibrium Occupancies\n"
+  std::cout << "Equilibrium vectors\n"
             << "=======================\n\n"
             << "Ideal Likelihood\n"
             << "----------------\n\n"
-            << "  * initial: " << HJCFIT::occupancies(idealG) << "\n"
-            << "  * final: "   << HJCFIT::occupancies(idealG, false) << "\n\n\n"
+            << "  * initial: " << HJCFIT::vectors(idealG) << "\n"
+            << "  * final: "   << HJCFIT::vectors(idealG, false) << "\n\n\n"
             << "Missed-events Likelihood\n"
             << "------------------------\n\n"
-            << "  * initial: " << HJCFIT::occupancies(eG) << "\n"
-            << "  * final: "   << HJCFIT::occupancies(eG, false) << "\n\n\n\n"
-            << "CHS Occupancies\n"
+            << "  * initial: " << HJCFIT::vectors(eG) << "\n"
+            << "  * final: "   << HJCFIT::vectors(eG, false) << "\n\n\n\n"
+            << "CHS vectors\n"
             << "===============\n\n"
             << "Missed-events Likelihood\n"
             << "------------------------\n\n"
             << "  * tcritical: " << tcritical << "\n"
-            << "  * initial: " << HJCFIT::CHS_occupancies(eG, tcritical) << "\n"
-            << "  * final: "   << HJCFIT::CHS_occupancies(eG, tcritical, false) << "\n";
+            << "  * initial: " << HJCFIT::CHS_vectors(eG, tcritical) << "\n"
+            << "  * final: "   << HJCFIT::CHS_vectors(eG, tcritical, false) << "\n";
 
   return 0;
 }

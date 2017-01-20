@@ -80,7 +80,7 @@
          "   Maximum length of missed events. Should be positive.\n\n"
          ".. attribute:: tcritical\n\n"
          "   :math:`t_{\\mathrm{crit}}` for CHS vectors. If negative, ``None``, or ``NaN``, \n"
-         "   then the initial and final states are the equilibrium occupancies.\n\n"
+         "   then the initial and final states are the equilibrium vectors.\n\n"
          ".. attribute:: nmax\n\n"
          "  The exact missed-events likelihood will be computed for \n"
          "  :math:`t < n_{\mathrm{max}}\tau`.\n\n"
@@ -114,7 +114,7 @@
            Maximum length of missed events. Should be positive.
         :param float tcritical:
            :math:`t_{\mathrm{crit}}` for CHS vectors. If None, then the initial and final states
-           are the equilibrium occupancies.
+           are the equilibrium vectors.
         :param integer nmax:
            The exact missed-events likelihood will be computed for 
            :math:`t < n_{\matrm{max}}\tau`.
@@ -194,7 +194,7 @@ class Log10Likelihood {
       HJCFIT_CATCH(SWIG_fail);
     }
     //! \brief tcrit. 
-    //! \detail If negative or null, will use equilibrium occupancies rather than CHS occupancies.
+    //! \detail If negative or null, will use equilibrium vectors rather than CHS vectors.
     HJCFIT::t_real tcritical;
     //! Number of intervals for which to compute exact result.
     HJCFIT::t_uint nmax;

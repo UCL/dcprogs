@@ -15,10 +15,10 @@
 #   GNU General Public License for more details.
 #########################
 
-set(LIKELIHOOD_SOURCE qmatrix.cc idealG.cc occupancies.cc time_filter.cc exact_survivor.cc
+set(LIKELIHOOD_SOURCE qmatrix.cc idealG.cc vectors.cc time_filter.cc exact_survivor.cc
                       root_finder.cc determinant_equation.cc asymptotes.cc approx_survivor.cc
                       missed_eventsG.cc laplace_survivor.cc brentq.cc likelihood.cc)
-set(LIKELIHOOD_HEADERS qmatrix.h errors.h idealG.h occupancies.h time_filter.h recursion_formula.h
+set(LIKELIHOOD_HEADERS qmatrix.h errors.h idealG.h vectors.h time_filter.h recursion_formula.h
                        exact_survivor.h root_finder.h determinant_equation.h asymptotes.h
                        approx_survivor.h missed_eventsG.h laplace_survivor.h likelihood.h brentq.h)
 
