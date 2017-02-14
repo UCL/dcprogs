@@ -16,7 +16,7 @@ cd $PBS_O_WORKDIR
 source $WORK/HJCFIT/utils/archer/loadArcherModules.sh
 
 #Load virtual env
-source activate dcprogs
+source activate HJCFIT
 
 cp $WORK/HJCFIT/exploration/mpi/simfitGlyR4_mpi.py .
 
