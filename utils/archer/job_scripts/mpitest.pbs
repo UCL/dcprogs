@@ -13,7 +13,7 @@ LOGFILE=$OUTPUT_DIR/mpitest
 mkdir -p $OUTPUT_DIR
 
 #This shifts to the directory that you submitted the job from
-cd $WORK/HJCFIT/exploration/mpi
+cd $WORK/HJCFIT/exploration
 
 #Load all the necessary tools and set the work environment
 source $WORK/HJCFIT/utils/archer/loadArcherModules.sh
