@@ -6,9 +6,11 @@ if(NOT WIN32)
        "#include <stdlib.h> \n"
        "int main() \n"
        "{ \n"
-       "  return system(\""
-            "${CMAKE_COMMAND} -DCMAKE_INSTALL_PREFIX=${TEST_INSTALL_DIRECTORY} "
-            "-P cmake_install.cmake\");"
+       "  // Because CMake has already expanded DCMAKE_INSTALL_RPATH in cmake_install.cmake\n"
+       "  // We have to rerun cmake to reconfigure it and set a different rpath in the fake install\n"
+       "  system(\"${CMAKE_COMMAND} .. -DCMAKE_INSTALL_RPATH=${CMAKE_BINARY_DIR}/${TEST_INSTALL_DIRECTORY}/lib\");\n"
+       "  system(\"${CMAKE_COMMAND} -DCMAKE_INSTALL_PREFIX=${TEST_INSTALL_DIRECTORY} -P cmake_install.cmake\");\n"
+       "  return system(\"${CMAKE_COMMAND} .. -UCMAKE_INSTALL_RPATH\");\n"
        "}\n")
 
   add_executable(fake_test_install ${CMAKE_BINARY_DIR}/fakeinstall.cc)
